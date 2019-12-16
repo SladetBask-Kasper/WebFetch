@@ -13,14 +13,14 @@ def convert(link):
 	url = ""
 	#correctDomainCheck = url.find("onyolo.com")
 	#if correctDomainCheck > 14 or correctDomainCheck < 0:
-	#	return (" E1", STD_ERROR)
+	#	return (STD_ERROR, STD_ERROR)
 	#del correctDomainCheck
 	if where < 0:
 		if link.find("/message") > 0:
 			url = link[:link.find("/message")] + "?w=x"
 			return (link, url)
 		else:
-			return (" E2", STD_ERROR)
+			return (STD_ERROR, STD_ERROR)
 	url = link[:where] + "?w=x"
 	link = link[:where] + "/message"
 	return (link, url)
