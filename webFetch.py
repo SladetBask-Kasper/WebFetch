@@ -1,4 +1,4 @@
-import requests
+import requests, re
 
 class Fetch:
 	def __init__(self, url):
@@ -9,7 +9,10 @@ class Fetch:
 
 	def getAfter(self, searchWord, by):
 		return str(self.html.split(searchWord, 1)[1])[:by]
-		
+	def getBetween(self, in_str = "self.html", start = "<span>", end = "</span>"):
+		if in_str.lower() == "self.html": in_str = self.html
+		main = f"{start}(.*){end}"
+		return re.search(main, in_str).group(1)
 	def getHtml(self):
 		return self.html
 	def getUrl(self):
