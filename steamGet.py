@@ -19,11 +19,11 @@ URLS = ["https://steamcommunity.com/market/listings/730/AWP%20%7C%20Dragon%20Lor
 def removeAsciiValues(txt): return str(urllib.parse.unquote(
 	txt.split(STD_LISTING_URL,1)[1]))
 
-def valutaTranslation(txt): 
-	txt = txt.replace(",--€", " Euro").replace("--€", " Euro").replace("€", 
-		" Euro").replace("zł", " Polsk Zloty").replace("$", "").replace("kr", " kr").replace("USD", 
-		" USD").replace("₴", " Ukrainian Hryvnia").replace("pуб", 
-		" Rysk Rubel").replace("000", " 000")
+def valutaTranslation(txt):
+	txt = txt.replace(",--€", " Euro").replace("--€", " Euro").replace("€",
+		" Euro").replace("zł", " Polsk Zloty").replace("$", "").replace("kr", " kr").replace("USD",
+		" USD").replace("₴", " Ukrainian Hryvnia").replace("pуб",
+		" Rysk Rubel").replace("000", " 000").replace("₸", " Kazakstansk Tenge")
 	if "¥" in txt:
 		txt = txt.replace("¥","") + " Yen"
 	elif "CDN$" in txt:
@@ -32,6 +32,15 @@ def valutaTranslation(txt):
 		txt = txt.replace("P", "") + " Peso"
 	elif "Rp" in txt:
 		txt = txt.replace("Rp", "") + " Nya Rupiah"#Indonesisk Rupie
+	elif "HK" in txt:
+		txt = txt.replace("HK", "") + " Hongkongdollar"
+	elif txt[0] == "R":
+		try:
+			tmp = int(txt[1])
+		except:
+			pass
+		else:
+			txt = txt.replace("R", "") + " Sydafrikansk Rand"
 	return txt
 
 def getSteamItem(url):
@@ -47,8 +56,11 @@ def getSteamItem(url):
 	final = valutaTranslation(final.replace(".", ","))
 	return final
 
+output = ""
 for i in URLS:
 	if not i == 1:
 		x = removeAsciiValues(i)
 		y = getSteamItem(i)
-		print(" [{}]{}{}".format(x, " "*(55-len(x)), y))
+		z = " [{}]{}{}\n".format(x, " "*((55-len(x))+1), y)
+		output += z
+		print(z, end="")
